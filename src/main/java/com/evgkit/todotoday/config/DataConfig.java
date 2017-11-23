@@ -36,12 +36,12 @@ public class DataConfig {
 
     @Bean
     public DataSource dataSource() {
-        BasicDataSource ds = new BasicDataSource();
-        ds.setDriverClassName(env.getProperty("todotoday.db.driver"));
-        ds.setUrl(env.getProperty("todotoday.db.url"));
-        ds.setUsername(env.getProperty("todotoday.db.username"));
-        ds.setPassword(env.getProperty("todotoday.db.password"));
-        return ds;
+        BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setDriverClassName(env.getProperty("todotoday.db.driver"));
+        basicDataSource.setUrl(env.getProperty("todotoday.db.url"));
+        basicDataSource.setUsername(env.getProperty("todotoday.db.username"));
+        basicDataSource.setPassword(env.getProperty("todotoday.db.password"));
+        return basicDataSource;
     }
 
     private Properties getHibernateProperties() {
@@ -54,3 +54,37 @@ public class DataConfig {
         return properties;
     }
 }
+
+/*
+@Configuration
+@PropertySource("app.properties")
+public class DataConfig {
+    @Autowired
+    private Environment env;
+
+    @Bean
+    public LocalSessionFactoryBean sessionFactory() {
+        Resource config = new ClassPathResource("hibernate.cfg.xml");
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+
+        sessionFactory.setConfigLocation(config);
+        sessionFactory.setPackagesToScan(env.getProperty("giflib.entity.package"));
+        sessionFactory.setDataSource(dataSource());
+
+        return sessionFactory;
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        BasicDataSource basicDataSource = new BasicDataSource();
+
+        basicDataSource.setDriverClassName(env.getProperty("giflib.db.driver"));
+        basicDataSource.setUrl(env.getProperty("giflib.db.url"));
+        basicDataSource.setUsername(env.getProperty("giflib.db.username"));
+        basicDataSource.setPassword(env.getProperty("giflib.db.password"));
+
+        return basicDataSource;
+    }
+}
+
+ */
