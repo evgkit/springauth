@@ -43,6 +43,14 @@ public class User implements UserDetails {
     return authorityList;
   }
 
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
   @Override
   public String getPassword() {
     return password;
@@ -55,7 +63,7 @@ public class User implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return false;
+    return true;
   }
 
   @Override

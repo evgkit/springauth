@@ -18,7 +18,7 @@ public class TaskController {
     @RequestMapping({"/", "/todo"})
     public String taskList(Model model) {
         Iterable<Task> tasks = taskService.findAll();
-        model.addAttribute("tasks",tasks);
+        model.addAttribute("tasks", tasks);
         model.addAttribute("newTask", new Task());
         return "todo";
     }
