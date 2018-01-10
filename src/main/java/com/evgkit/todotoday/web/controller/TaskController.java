@@ -1,8 +1,11 @@
 package com.evgkit.todotoday.web.controller;
 
 import com.evgkit.todotoday.model.Task;
+import com.evgkit.todotoday.model.User;
 import com.evgkit.todotoday.service.TaskService;
+import com.evgkit.todotoday.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,10 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
+
 @Controller
 public class TaskController {
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping({"/", "/todo"})
     public String taskList(Model model) {
@@ -31,7 +39,9 @@ public class TaskController {
     }
 
     @RequestMapping(path = "/tasks", method = RequestMethod.POST)
-    public String addTask(@ModelAttribute Task task) {
+    public String addTask(@ModelAttribute Task task, Principal principal) {
+        User user = (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+        task.setUser(user);
         taskService.save(task);
         return "redirect:/";
     }
